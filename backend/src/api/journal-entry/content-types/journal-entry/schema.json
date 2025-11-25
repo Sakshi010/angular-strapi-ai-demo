@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journal_entries",
+  "info": {
+    "singularName": "journal-entry",
+    "pluralName": "journal-entries",
+    "displayName": "Journal Entry"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mood": {
+      "type": "enumeration",
+      "enum": [
+        "Scale 1",
+        "Scale 2",
+        "Scale 3",
+        "Scale 4",
+        "Scale 5 "
+      ]
+    },
+    "sleep_hours": {
+      "type": "integer"
+    },
+    "sleep_quality": {
+      "type": "enumeration",
+      "enum": [
+        "poor",
+        "fair",
+        "good",
+        "excellent"
+      ]
+    },
+    "notes": {
+      "type": "richtext"
+    },
+    "overall_score": {
+      "type": "integer"
+    },
+    "meals": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::meal.meal",
+      "mappedBy": "journal_entry"
+    },
+    "workout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workout.workout",
+      "inversedBy": "journal_entry"
+    },
+    "date": {
+      "type": "date"
+    },
+    "consumer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::consumer.consumer",
+      "inversedBy": "journal_entries"
+    }
+  }
+}

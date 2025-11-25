@@ -430,155 +430,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiConsumerConsumer extends Struct.CollectionTypeSchema {
-  collectionName: 'consumers';
-  info: {
-    displayName: 'Consumer';
-    pluralName: 'consumers';
-    singularName: 'consumer';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    email: Schema.Attribute.Email;
-    journal_entries: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::journal-entry.journal-entry'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::consumer.consumer'
-    > &
-      Schema.Attribute.Private;
-    Name: Schema.Attribute.String;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiJournalEntryJournalEntry
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'journal_entries';
-  info: {
-    displayName: 'Journal Entry';
-    pluralName: 'journal-entries';
-    singularName: 'journal-entry';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    consumer: Schema.Attribute.Relation<'manyToOne', 'api::consumer.consumer'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::journal-entry.journal-entry'
-    > &
-      Schema.Attribute.Private;
-    meals: Schema.Attribute.Relation<'oneToMany', 'api::meal.meal'>;
-    mood: Schema.Attribute.Enumeration<
-      ['Scale 1', 'Scale 2', 'Scale 3', 'Scale 4', 'Scale 5 ']
-    >;
-    notes: Schema.Attribute.RichText;
-    overall_score: Schema.Attribute.Integer;
-    publishedAt: Schema.Attribute.DateTime;
-    sleep_hours: Schema.Attribute.Integer;
-    sleep_quality: Schema.Attribute.Enumeration<
-      ['poor', 'fair', 'good', 'excellent']
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    workout: Schema.Attribute.Relation<'oneToOne', 'api::workout.workout'>;
-  };
-}
-
-export interface ApiMealMeal extends Struct.CollectionTypeSchema {
-  collectionName: 'meals';
-  info: {
-    displayName: 'Meal';
-    pluralName: 'meals';
-    singularName: 'meal';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    calories: Schema.Attribute.Integer;
-    carbs: Schema.Attribute.Integer;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
-    fats: Schema.Attribute.Integer;
-    journal_entry: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::journal-entry.journal-entry'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::meal.meal'> &
-      Schema.Attribute.Private;
-    name: Schema.Attribute.String;
-    notes: Schema.Attribute.RichText;
-    protein: Schema.Attribute.Integer;
-    publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<
-      ['breakfast', 'lunch', 'dinner', 'snacks']
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiWorkoutWorkout extends Struct.CollectionTypeSchema {
-  collectionName: 'workouts';
-  info: {
-    displayName: 'Workout';
-    pluralName: 'workouts';
-    singularName: 'workout';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    calories_burned: Schema.Attribute.Integer;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
-    duration_minutes: Schema.Attribute.Integer;
-    intensity: Schema.Attribute.Enumeration<['low', 'medium', 'high']>;
-    journal_entry: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::journal-entry.journal-entry'
-    >;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::workout.workout'
-    > &
-      Schema.Attribute.Private;
-    notes: Schema.Attribute.RichText;
-    publishedAt: Schema.Attribute.DateTime;
-    type: Schema.Attribute.Enumeration<['cardio', 'strength', 'yoga', 'other']>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1034,6 +885,7 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
+    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1088,10 +940,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::consumer.consumer': ApiConsumerConsumer;
-      'api::journal-entry.journal-entry': ApiJournalEntryJournalEntry;
-      'api::meal.meal': ApiMealMeal;
-      'api::workout.workout': ApiWorkoutWorkout;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

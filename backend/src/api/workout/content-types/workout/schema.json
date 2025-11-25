@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workouts",
+  "info": {
+    "singularName": "workout",
+    "pluralName": "workouts",
+    "displayName": "Workout"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "cardio",
+        "strength",
+        "yoga",
+        "other"
+      ]
+    },
+    "duration_minutes": {
+      "type": "integer"
+    },
+    "intensity": {
+      "type": "enumeration",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "calories_burned": {
+      "type": "integer"
+    },
+    "notes": {
+      "type": "richtext"
+    },
+    "journal_entry": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::journal-entry.journal-entry",
+      "mappedBy": "workout"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}
